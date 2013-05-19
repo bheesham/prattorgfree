@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+  <head>
+    <title>prattorgfree</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="css/app.css">
+  </head>
+  <body>
+    <div class="container">
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <div class="nine columns alpha">
+          all submitted content is anonymous. that said, do you want to 
+          <a id="submit-something" class="bold" href="#">submit something</a>?
+        </div>
+        <div class="three columns omega">
+          <a href="https://twitter.com/intent/tweet?button_hashtag=prattorgfree" class="twitter-hashtag-button" data-related="bheeshman,simondavidpratt" data-url="http://prattorgfree.com/">tweet #prattorgfree</a>
+        </div>
+      </div>
+    </div>
+
+    <div id="submit-dialog" class="hide">
+      <label for="slander-message">message:</label>
+        <input type="text" id="slander-message" placeholder="slander text" value=""> <br>
+      <label for="slander-image">image (optional):</label>
+        <input type="text" id="slander-image" placeholder="http://i.imgur/simonsucks.jpg" value=""> <br> 
+        
+        <span class="bold">note: </span> only imgur url's please <br>
+        <br>
+
+        <button type="submit" id="submit-slander">+1 for anarchy!</button>
+        <button type="button" id="chicken-out">chicken out</button>
+    </div>  
+
+
+    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="js/app.js"></script>
+  </body>
+</html>

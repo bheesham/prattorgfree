@@ -1,0 +1,18 @@
+{
+  "name":         "prattogfree",
+  "author" :      "Bheesham Persaud <bheesham.persaud@live.ca>",
+  "description":  "for anarchy!",
+  "version":      "0.0.1",
+  "private":      true,
+  "contributors": [
+    {
+      "name":  "Bheesham Persaud",
+      "email": "bheesham.persaud@live.ca"
+    }
+  ],
+  "dependencies": {
+    "sequelize":        "*",
+    "director":         "1.2.0"
+  },
+  "license": "ISC License"
+}
