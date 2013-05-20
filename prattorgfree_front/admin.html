@@ -13,15 +13,23 @@
     <div class="container">
       
       <h1 class="center">admin interface</h1>
-      Password: <input type="password" id="password">
-      <button type="button" id="load-messages">load messages</button> <br>
+
+      <div class="container">
+        <div class="four columns alpha">
+        Password: <input type="password" id="password">
+        </div>
+        <div class="three columns omega">
+          <button type="button" id="load-messages">load messages</button> <br>
+        </div>
+        <br><br>
+      </div>
 
       <div class="twelve columns" id="slanderous-messages">
         <div class="hide" id="item-template">
           <h4>a</h4>
           <a class="hide">link to image</a>
-          <button type="button" accept="">accept</button>
-          <button type="button" delete="">delete</button>
+          <button type="button" class="action" accept="">accept</button>
+          <button type="button" class="action" delete="">delete</button>
         </div>
       </div>
     </div>
@@ -30,6 +38,7 @@
       <div class="container">
         <div class="twelve columns alpha">
           ha, simon. what now?
+          <a href="/" class="bold">back to the index page.</a>
         </div>
       </div>
     </div>

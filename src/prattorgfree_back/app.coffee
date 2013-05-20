@@ -47,12 +47,12 @@ submit_slander = () ->
   )
 
   if (!this.req.body.message or !this.req.body.message?)
-    return this.res.end(JSON.stringify({error: "invalid request, no slander message."}))
+    return res.end(JSON.stringify({error: "invalid request, no slander message."}))
 
   # if an image exists, validate
   if (this.req.body.image and this.req.body.image?)
     if (!this.req.body.image.match("(http|https):\/\/i\.imgur\.com\/([a-zA-Z0-9]+)\.(jpg|jpeg|png|gif)"))
-      return this.res.end(JSON.stringify({error: "invalid request, invalid imgur url."}))
+      return res.end(JSON.stringify({error: "invalid request, invalid imgur url."}))
   else
     this.req.body.image = ""
 
@@ -80,13 +80,9 @@ retrieve_slander = () ->
         image: result[0].image
       ))
     else 
-      res.end(JSON.stringify(
-        error: "no more content."
-      ))  
+      res.end(JSON.stringify({error: "no more content."}))  
   ).error(() ->
-    res.end(JSON.stringify(
-      error: "no more content."
-    ))
+    res.end(JSON.stringify({error: "no more content."}))
   )
 
 retrieve_pending_slander = () ->
@@ -98,9 +94,7 @@ retrieve_pending_slander = () ->
   password = url.parse(this.req.url, true).query.password
   
   if !(password is admin_password)
-    return this.res.end(JSON.stringify(
-      error: "invalid password"
-    ))
+    return res.end(JSON.stringify({error: "invalid password."}))
 
   # Now list 10 pending messages
   Messages.findAll(
@@ -108,17 +102,42 @@ retrieve_pending_slander = () ->
       approved: false
     limit: 10
   ).success((messages) ->
-    res.end(JSON.stringify(
-      messages: messages
-    ))
+    res.end(JSON.stringify({messages: messages}))
   ).error(() ->
-    res.end(JSON.stringify(
-      error: "no more content."
-    ))
+    res.end(JSON.stringify({error: "no more content."}))
   )
 
 submit_pending_slander = () ->
-  undefined
+  res = this.res
+  res.writeHead(200,
+    "Content-Type": "application/json"
+    "charset": "utf8"
+  )
+
+  if !(this.req.body.password is admin_password)
+    return res.end(JSON.stringify({error: "invalid password."}))
+
+  if (!this.req.body.action or !this.req.body.action?)
+    return res.end(JSON.stringify({error: "inalid request, select an action."}))
+
+  # we need a number, and nothing else from the id
+  if (!this.req.body.id.match("([0-9]+)"))
+    return res.end(JSON.stringify({error: "invalid message id."}))    
+
+  if (this.req.body.action == "accept")
+    sql.query("UPDATE messages SET approved = true WHERE id = " + this.req.body.id).success(() ->
+      return res.end(JSON.stringify({success: "accepted that message."}))
+    ).error(() ->
+      return res.end(JSON.stringify({error: "could not accept that message."}))
+    )
+  else if (this.req.body.action == "delete")
+    sql.query("DELETE FROM messages WHERE id = " + this.req.body.id).success(() ->
+      return res.end(JSON.stringify({success: "deleted that message."}))
+    ).error(() ->
+      return res.end(JSON.stringify({error: "could not delete that message."}))
+    )
+  else
+    return res.end(JSON.stringify({error: "woah, you can't just make up new actions."}))    
 
 router = new director.http.Router(
   '/back/submit':

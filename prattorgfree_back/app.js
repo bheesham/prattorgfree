@@ -61,13 +61,13 @@
       "charset": "utf8"
     });
     if (!this.req.body.message || (this.req.body.message == null)) {
-      return this.res.end(JSON.stringify({
+      return res.end(JSON.stringify({
         error: "invalid request, no slander message."
       }));
     }
     if (this.req.body.image && (this.req.body.image != null)) {
       if (!this.req.body.image.match("(http|https):\/\/i\.imgur\.com\/([a-zA-Z0-9]+)\.(jpg|jpeg|png|gif)")) {
-        return this.res.end(JSON.stringify({
+        return res.end(JSON.stringify({
           error: "invalid request, invalid imgur url."
         }));
       }
@@ -124,8 +124,8 @@
     });
     password = url.parse(this.req.url, true).query.password;
     if (!(password === admin_password)) {
-      return this.res.end(JSON.stringify({
-        error: "invalid password"
+      return res.end(JSON.stringify({
+        error: "invalid password."
       }));
     }
     return Messages.findAll({
@@ -145,7 +145,53 @@
   };
 
   submit_pending_slander = function() {
-    return void 0;
+    var res;
+
+    res = this.res;
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "charset": "utf8"
+    });
+    if (!(this.req.body.password === admin_password)) {
+      return res.end(JSON.stringify({
+        error: "invalid password."
+      }));
+    }
+    if (!this.req.body.action || (this.req.body.action == null)) {
+      return res.end(JSON.stringify({
+        error: "inalid request, select an action."
+      }));
+    }
+    if (!this.req.body.id.match("([0-9]+)")) {
+      return res.end(JSON.stringify({
+        error: "invalid message id."
+      }));
+    }
+    if (this.req.body.action === "accept") {
+      return sql.query("UPDATE messages SET approved = true WHERE id = " + this.req.body.id).success(function() {
+        return res.end(JSON.stringify({
+          success: "accepted that message."
+        }));
+      }).error(function() {
+        return res.end(JSON.stringify({
+          error: "could not accept that message."
+        }));
+      });
+    } else if (this.req.body.action === "delete") {
+      return sql.query("DELETE FROM messages WHERE id = " + this.req.body.id).success(function() {
+        return res.end(JSON.stringify({
+          success: "deleted that message."
+        }));
+      }).error(function() {
+        return res.end(JSON.stringify({
+          error: "could not delete that message."
+        }));
+      });
+    } else {
+      return res.end(JSON.stringify({
+        error: "woah, you can't just make up new actions."
+      }));
+    }
   };
 
   router = new director.http.Router({

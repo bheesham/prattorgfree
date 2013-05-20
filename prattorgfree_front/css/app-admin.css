@@ -28,3 +28,7 @@ html, body {
   position: fixed;
   bottom: 0px;
 }
+
+#load-messages {
+  margin-top: 20px;
+}
