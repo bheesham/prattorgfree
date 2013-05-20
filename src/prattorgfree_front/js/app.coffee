@@ -2,7 +2,7 @@
 
 # show a random entry
 $.ajax(
-  url: "/retrieve"
+  url: "/back/retrieve"
   type: "GET"
   dataType: "json"
   cache: false
@@ -11,7 +11,7 @@ $.ajax(
     $.gritter.add(
       title: "error"
       text: resp.error
-      time: 500
+      time: 3000
     )
   else if (resp.message and resp.message?)
     if (resp.image and resp.image?)
@@ -21,20 +21,21 @@ $.ajax(
   $.gritter.add(
     title: "error"
     text: "something went wrong. could not load any of the entries."
-    time: 500
+    time: 3000
   )
 )
 
 # show and hide the submit form
 $("#submit-something").get(0).onclick = () ->
   $("#submit-dialog").show()
+  $("#slander-message").focus()
 
 $("#chicken-out").get(0).onclick = () ->
   $("#submit-dialog").hide()
 
 $("#submit-slander").get(0).onclick = () ->
   $.ajax(
-    url: "/submit"
+    url: "/back/submit"
     dataType: "json"
     data: 
       message: $("#slander-message").val()
@@ -45,19 +46,19 @@ $("#submit-slander").get(0).onclick = () ->
       $.gritter.add(
         title: "error"
         text: resp.error
-        time: 500
+        time: 3000
       )
     else if (resp.success?)
       $.gritter.add(
         title: "success"
         text: resp.success
-        time: 300
+        time: 2000
       )
   ).fail(() ->
     $.gritter.add(
       title: "error"
       text: "something went wrong. disliking simon more is not possible at this moment."
-      time: 500
+      time: 3000
     )
   )
 

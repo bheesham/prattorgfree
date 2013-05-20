@@ -2,6 +2,11 @@ http = require("http")
 url = require("url")
 director = require("director")
 Sequelize = require("sequelize")
+htmlencode = require("htmlencode")
+
+admin_password = "12345"
+
+htmlencode.EncodeType = "numerical"
 
 sql = new Sequelize("prattorgfree", "postgres", "12345",
   host: "localhost"
@@ -45,14 +50,15 @@ submit_slander = () ->
     return this.res.end(JSON.stringify({error: "invalid request, no slander message."}))
 
   # if an image exists, validate
-  if (this.req.body.image and this.req.body.image? and !this.req.body.image.match("/(http|https):\/\/i\.imgur\.com\/([a-z0-9]+)\.(jpg|jpeg|png|gif)/i"))
-    return this.res.end(JSON.stringify({error: "invalid request, invalid imgur url."}))
+  if (this.req.body.image and this.req.body.image?)
+    if (!this.req.body.image.match("(http|https):\/\/i\.imgur\.com\/([a-zA-Z0-9]+)\.(jpg|jpeg|png|gif)"))
+      return this.res.end(JSON.stringify({error: "invalid request, invalid imgur url."}))
   else
     this.req.body.image = ""
 
   # validation over, insert, return, ???, profit
   Messages.create(
-    message: this.req.body.message
+    message: htmlencode.htmlEncode(this.req.body.message)
     image: this.req.body.image
   ).success(() ->
     res.end(JSON.stringify({success: "you've made simon sad. congratulations."}))
@@ -62,7 +68,7 @@ submit_slander = () ->
 
 retrieve_slander = () ->
   res = this.res
-  this.res.writeHead(200,
+  res.writeHead(200,
     "Content-Type": "text/plain"
     "charset": "utf8"
   )
@@ -77,18 +83,52 @@ retrieve_slander = () ->
       res.end(JSON.stringify(
         error: "no more content."
       ))  
-  ).error((e) ->
+  ).error(() ->
     res.end(JSON.stringify(
       error: "no more content."
     ))
   )
 
-router = new director.http.Router(
-  '/submit':
-    post: submit_slander
-)
+retrieve_pending_slander = () ->
+  res = this.res
+  res.writeHead(200,
+    "Content-Type": "text/plain"
+    "charset": "utf8"
+  )
+  password = url.parse(this.req.url, true).query.password
+  
+  if !(password is admin_password)
+    return this.res.end(JSON.stringify(
+      error: "invalid password"
+    ))
 
-router.get(/\/retrieve/, retrieve_slander)
+  # Now list 10 pending messages
+  Messages.findAll(
+    where: 
+      approved: false
+    limit: 10
+  ).success((messages) ->
+    res.end(JSON.stringify(
+      messages: messages
+    ))
+  ).error(() ->
+    res.end(JSON.stringify(
+      error: "no more content."
+    ))
+  )
+
+submit_pending_slander = () ->
+  undefined
+
+router = new director.http.Router(
+  '/back/submit':
+    post: submit_slander
+  '/back/retrieve':
+    get: retrieve_slander
+  '/back/admin':
+    get: retrieve_pending_slander
+    post: submit_pending_slander
+)
 
 server = http.createServer((req, res) ->
   req.chunks = [];

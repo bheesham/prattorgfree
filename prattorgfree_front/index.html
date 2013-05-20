@@ -10,6 +10,19 @@
   </head>
   <body>
     
+    <div id="submit-dialog" class="hide">
+      <label for="slander-message">message:</label>
+        <input type="text" id="slander-message" placeholder="slander text" value=""> <br>
+    <label for="slander-image">image (optional):</label>
+      <input type="text" id="slander-image" placeholder="http://i.imgur/embarrasingimageofsimon.jpg" value=""> <br> 
+      
+      <span class="bold">note: </span> only imgur url's please <br>
+      <br>
+
+      <button type="submit" id="submit-slander">+1 for anarchy!</button>
+      <button type="button" id="chicken-out">chicken out</button>
+    </div>
+
     <div class="container" id="message-container">
       <h1 id="message" class="center">loading</h1>
       <p class="center">
@@ -28,20 +41,6 @@
         </div>
       </div>
     </div>
-
-    <div id="submit-dialog" class="hide">
-      <label for="slander-message">message:</label>
-        <input type="text" id="slander-message" placeholder="slander text" value=""> <br>
-      <label for="slander-image">image (optional):</label>
-        <input type="text" id="slander-image" placeholder="http://i.imgur/embarrasingimageofsimon.jpg" value=""> <br> 
-        
-        <span class="bold">note: </span> only imgur url's please <br>
-        <br>
-
-        <button type="submit" id="submit-slander">+1 for anarchy!</button>
-        <button type="button" id="chicken-out">chicken out</button>
-    </div>  
-
 
     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 

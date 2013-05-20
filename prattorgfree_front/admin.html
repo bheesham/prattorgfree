@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>prattorgfree - admin</title>
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/skeleton.css">
+    <link rel="stylesheet" type="text/css" href="css/layout.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.gritter.css">
+    <link rel="stylesheet" type="text/css" href="css/app-admin.css">
+  </head>
+  <body>
+    
+    <div class="container">
+      
+      <h1 class="center">admin interface</h1>
+      Password: <input type="password" id="password">
+      <button type="button" id="load-messages">load messages</button> <br>
+
+      <div class="twelve columns" id="slanderous-messages">
+        <div class="hide" id="item-template">
+          <h4>a</h4>
+          <a class="hide">link to image</a>
+          <button type="button" accept="">accept</button>
+          <button type="button" delete="">delete</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <div class="twelve columns alpha">
+          ha, simon. what now?
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <!-- 
+    <script type="text/javascript" src="js/jquery.hotkeys.js"></script> -->
+    <script type="text/javascript" src="js/jquery.gritter.js"></script>
+    <script type="text/javascript" src="js/app-admin.js"></script>
+  </body>
+</html>

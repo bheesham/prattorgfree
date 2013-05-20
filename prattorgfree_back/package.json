@@ -13,7 +13,8 @@
   "dependencies": {
     "sequelize":        "*",
     "director":         "1.2.0",
-    "pg":               "1.1.0"
+    "pg":               "1.1.0",
+    "htmlencode":       "0.0.3"
   },
   "license": "ISC License"
 }
