@@ -12,7 +12,8 @@
   ],
   "dependencies": {
     "sequelize":        "*",
-    "director":         "1.2.0"
+    "director":         "1.2.0",
+    "pg":               "1.1.0"
   },
   "license": "ISC License"
 }

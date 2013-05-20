@@ -1,6 +1,11 @@
 html, body {
-  overflow-x: none;
-  overflow-y: none;
+  overflow-x: hidden;
+  overflow-y: hidden;
+
+}
+
+.center {
+  text-align: center;
 }
 
 .hide {
@@ -9,6 +14,14 @@ html, body {
 
 .bold {
   font-weight: bold;
+}
+
+.center {
+  text-align: center;
+}
+
+#message-container {
+  padding-top: 150px;
 }
 
 #footer {
